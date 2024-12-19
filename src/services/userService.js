@@ -8,10 +8,10 @@ const salt = bcrypt.genSaltSync(10);
 let hashUserPassword = (password) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let hashPassword = await bcrypt.hashSync(password, salt);
+      let hashPassword = await bcrypt.hash(password, salt);
       resolve(hashPassword);
     } catch (error) {
-      reject(error);
+      reject(error);  
     }
   });
 };
@@ -121,6 +121,7 @@ let createNewUser = (data) => {
         gender: data.gender,
         roleId: data.roleId,
         positionId: data.positionId,
+        image: data.avatar,
       });
 
       resolve({
@@ -140,21 +141,30 @@ let updateUserData = (data) => {
         where: { id: data.id },
         raw: false,
       });
-      if (!user || !user.id || !user.roleId || !user.positionId || !user.gender) {
+      if (
+        !user ||
+        !user.id ||
+        !user.roleId ||
+        !user.positionId ||
+        !user.gender
+      ) {
         resolve({
           errCode: 2,
           message: "User is not found",
         });
       }
-        (user.firstName = data.firstName),
+      (user.firstName = data.firstName),
         (user.lastName = data.lastName),
         (user.address = data.address),
         (user.phoneNumber = data.phoneNumber),
         (user.gender = data.gender),
         (user.roleId = data.roleId),
         (user.positionId = data.positionId),
-        (user.gender = data.gender)
-        await user.save();
+        (user.gender = data.gender);
+        if(data.avatar) {
+          (user.image = data.avatar);
+        }
+      await user.save();
       resolve({
         errCode: 0,
         message: "Updated succeed!",
