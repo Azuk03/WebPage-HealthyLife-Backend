@@ -1,7 +1,5 @@
 'use strict';
 
-const specialty = require("../models/specialty");
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('doctor_clinic_specialty', {
