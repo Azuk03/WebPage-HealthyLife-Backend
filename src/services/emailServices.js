@@ -64,6 +64,46 @@ let getBodyHTMLEmail = (dataSend) => {
   return result;
 };
 
+let getBodyHTMLEmailRemedy = (dataSend) => {
+  let result = "";
+  if (dataSend.language === "vi") {
+    result = `
+    <h3>Xin chào ${dataSend.patientName}!</h3>
+    <p>Đây là kết quả khám bệnh và phương thuốc bác sĩ kê sau khi bạn khám xong</p>
+    <p>Thông tin đơn thuốc/hóa đơn được gửi trong file đính kèm: </p>
+    <p>Xin chân thành cảm ơn vì đã sử dụng dịch vụ của chúng tôi!</p>
+    `;
+  }
+  if (dataSend.language === "en") {
+    result = `
+    <h3>Hello ${dataSend.patientName}!</h3>
+    <p>This is the medical examination result and the prescription given by the doctor after your check-up.</p>
+    <p>The prescription/invoice details are attached in the file:</p>
+    <p>We sincerely thank you for using our services!</p>
+    `;
+  }
+
+  return result;
+};
+
+let sendAttachment = async (dataSend) => {
+  const info = await transporter.sendMail({
+    from: '"Tran Quang Hieu 👻" <meocuptai2@gmail.com>', // sender address
+    to: dataSend.email, // list of receivers
+    subject: "Kết quả khám bệnh ✔", // Subject line
+    html: getBodyHTMLEmailRemedy(dataSend),
+    attachments: [
+      {
+        filename: `remedy-${dataSend.patientName}-${new Date().getTime()}.png`,
+        content: dataSend.imgBase64.split("base64,")[1],
+        encoding: "base64",
+      },
+    ],
+    // html body
+  });
+};
+
 module.exports = {
   sendAEmail: sendAEmail,
+  sendAttachment: sendAttachment
 };
