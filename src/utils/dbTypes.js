@@ -4,10 +4,21 @@ const getDataType = (sequelize, type) => {
   const isProduction = env === "production";
 
   // Đảm bảo rằng sequelize và DataTypes đều tồn tại
-  const DataTypes =
-    sequelize && sequelize.DataTypes
-      ? sequelize.DataTypes
-      : require("sequelize").DataTypes;
+  let DataTypes;
+
+  if (sequelize && sequelize.DataTypes) {
+    DataTypes = sequelize.DataTypes;
+  } else if (
+    sequelize &&
+    typeof sequelize === "object" &&
+    sequelize.hasOwnProperty("DataTypes")
+  ) {
+    // Trường hợp chỉ truyền { DataTypes } thay vì đối tượng sequelize đầy đủ
+    DataTypes = sequelize.DataTypes;
+  } else {
+    // Import DataTypes nếu không có sẵn
+    DataTypes = require("sequelize").DataTypes;
+  }
 
   switch (type) {
     case "BOOLEAN":

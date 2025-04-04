@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       image: {
-        type: getDataType(sequelize, "BLOB"),
+        type: getDataType({ DataTypes }, "BLOB"),
         allowNull: true,
       },
       roleId: DataTypes.STRING,
