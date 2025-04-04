@@ -1,0 +1,40 @@
+{
+  "development": {
+    "username": "root",
+    "password": "tqh14122003",
+    "database": "testketnoi",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false,
+    "query": {
+      "raw": true
+    },
+    "timezone": "+07:00"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "healthylife_user",
+    "password": "eb0AXqcWTLGJni4MWubJ4uhsbhnWGJdm",
+    "database": "healthylife",
+    "host": "dpg-cvnsu6p5pdvs73fs7tjg-a",
+    "port": "5432",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    },
+    "logging": false,
+    "query": {
+      "raw": true
+    },
+    "timezone": "+07:00"
+  }
+}
