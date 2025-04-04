@@ -47,6 +47,18 @@ let connectdb = async () => {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
 
+    // Trong môi trường production, tự động đồng bộ schema thay vì chạy migration
+    if (env === "production") {
+      try {
+        console.log("Đang đồng bộ hóa models với database...");
+        // Đồng bộ schema trực tiếp từ models
+        await sequelize.sync({ alter: true });
+        console.log("Đồng bộ hóa schema thành công!");
+      } catch (syncError) {
+        console.error("Lỗi khi đồng bộ hóa schema:", syncError);
+      }
+    }
+
     // Gán biến sequelize để models/index.js có thể sử dụng (nếu cần)
     global.sequelize = sequelize;
 

@@ -22,7 +22,7 @@ let createNewUser = async (data) => {
         lastName: data.lastName,
         address: data.address,
         phoneNumber: data.phoneNumber,
-        gender: data.gender, // Giữ nguyên gender vì đã xử lý trong model
+        gender: gender,
         roleId: data.roleId,
       });
 
