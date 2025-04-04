@@ -3,19 +3,21 @@ const getDataType = (sequelize, type) => {
   const env = process.env.NODE_ENV || "development";
   const isProduction = env === "production";
 
+  // Đảm bảo rằng sequelize và DataTypes đều tồn tại
+  const DataTypes =
+    sequelize && sequelize.DataTypes
+      ? sequelize.DataTypes
+      : require("sequelize").DataTypes;
+
   switch (type) {
     case "BOOLEAN":
-      return isProduction
-        ? sequelize.DataTypes.BOOLEAN
-        : sequelize.DataTypes.TINYINT(1);
+      return isProduction ? DataTypes.BOOLEAN : DataTypes.TINYINT(1);
     case "BLOB":
-      return isProduction
-        ? sequelize.DataTypes.BYTEA
-        : sequelize.DataTypes.BLOB("long");
+      return isProduction ? DataTypes.BYTEA : DataTypes.BLOB("long");
     case "TEXT":
-      return isProduction ? sequelize.DataTypes.TEXT : sequelize.DataTypes.TEXT;
+      return DataTypes.TEXT; // Giống nhau cho cả môi trường
     default:
-      return sequelize.DataTypes[type];
+      return DataTypes[type] || DataTypes.STRING; // Fallback về STRING nếu không tìm thấy
   }
 };
 
