@@ -24,7 +24,7 @@ const getDataType = (sequelize, type) => {
     case "BOOLEAN":
       return isProduction ? DataTypes.BOOLEAN : DataTypes.TINYINT(1);
     case "BLOB":
-      return isProduction ? DataTypes.BYTEA : DataTypes.BLOB("long");
+      return isProduction ? DataTypes.BLOB : DataTypes.BLOB("long");
     case "TEXT":
       return DataTypes.TEXT; // Giống nhau cho cả môi trường
     default:
